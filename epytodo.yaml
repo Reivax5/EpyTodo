@@ -1,0 +1,323 @@
+openapi: 3.0.0
+info:
+  description: "Epytodo: TODO API with authorization"
+  version: 1.0.0
+  title: EPYTODO
+tags:
+  - name: Register and login
+    description: Everything about your authentification
+  - name: User
+    description: Operations about user
+  - name: "TODO's"
+    description: "Access update and create TODO's"
+paths:
+  /register:
+    post:
+      tags:
+        - Register and login
+      description: This can only be done once by email.
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/register"
+        description: Created user object
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/token"
+        default:
+          description: user already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+  /login:
+    post:
+      tags:
+        - Register and login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/login"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/token"
+        default:
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+  /user:
+    get:
+      tags:
+        - User
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+  /user/todos:
+    get:
+      tags:
+        - User
+      responses:
+        "200":
+          description: succesful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/todo"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+  /user/:id:
+    delete:
+      tags:
+        - User
+      responses:
+        default:
+          description: Same body for successul and failed operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+    get:
+      tags:
+        - User
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+    put:
+      tags:
+        - User
+      requestBody:
+        $ref: "#/paths/~1login/post/requestBody"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+  /user/:email:
+    get:
+      tags:
+        - User
+      responses:
+        $ref: "#/paths/~1user~1:id/get/responses"
+  /todos:
+    get:
+      tags:
+        - TODO's
+      responses:
+        "200":
+          description: succesful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/todo"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+    post:
+      tags:
+        - TODO's
+      requestBody:
+        content:
+          aplication/json:
+            schema:
+              $ref: "#/components/schemas/createTodo"
+      responses:
+        "200":
+          description: succesful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/todo"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+  /todos/:id:
+    delete:
+      tags:
+        - TODO's
+      responses:
+        default:
+          description: Same body for successul and failed operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+    get:
+      tags:
+        - TODO's
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/todo"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+    put:
+      tags:
+        - TODO's
+      requestBody:
+        content:
+          aplication/json:
+            schema:
+              $ref: "#/components/schemas/createTodo"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/todo"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+servers: [
+  {
+    url: "http://localhost:8000"
+  }
+]
+components:
+  schemas:
+    register:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        firstname:
+          type: string
+        password:
+          type: string
+      xml:
+        name: Register
+    login:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      xml:
+        name: Register
+    user:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        password:
+          type: string
+        created_at:
+          type: string
+        firstname:
+          type: string
+        name:
+          type: string
+    createTodo:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        user_id:
+          type: integer
+        status:
+          type: string
+    todo:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+        user_id:
+          type: integer
+        status:
+          type: string
+    token:
+      type: object
+      properties:
+        token:
+          type: string
+      xml:
+        name: Token
+    message:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Message describing error
+      xml: 
+        name: Message
