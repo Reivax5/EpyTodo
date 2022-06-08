@@ -1,3 +1,5 @@
+![image]({[https://img.shields.io/badge/G.P.A-3.05-red](https://github-readme-streak-stats.herokuapp.com/?user={Reivax5})})
+
 # EpyTodo
 
 The project idea is to build a Todo List.
