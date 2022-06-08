@@ -1,4 +1,4 @@
-![image]({[https://img.shields.io/badge/G.P.A-3.05-red](https://github-readme-streak-stats.herokuapp.com/?user={Reivax5})})
+<img src="{ https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white }"/>
 
 # EpyTodo
 
